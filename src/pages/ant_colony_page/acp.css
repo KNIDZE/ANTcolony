@@ -1,0 +1,21 @@
+:root{
+  --border-rad: 20px;
+}
+.flex_column{
+  display: flex;
+  flex-direction: column;
+}
+.flex_row{
+  display: flex;
+  flex-direction: row;
+}
+.acp_section{
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: aquamarine;
+}
+.fit_content{
+  height: fit-content;
+}

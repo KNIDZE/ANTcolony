@@ -1,0 +1,38 @@
+.relative{
+  position: relative;
+}
+.board_button{
+  height: 540px;
+  margin-right: 50px;
+}
+form{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+canvas{
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+.work_board{
+  border-radius: var(--border-rad);
+  width: 960px;
+  height: 540px;
+  background-image: url("D:\shppFront\magistr_work\magistr\src\pages\ant_colony_page\images\1989877.jpg");
+  background-size: contain;
+  position: relative;
+}
+.clear_button{
+  height: 30px;
+  width:100px;
+  border-radius: 10px;
+  border: 2px solid black;
+  left: 0;
+  position: absolute;
+}
+.clear_button:hover{
+  cursor: pointer;
+}

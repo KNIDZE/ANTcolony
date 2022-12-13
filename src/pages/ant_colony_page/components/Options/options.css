@@ -1,0 +1,9 @@
+.options{
+  border-radius: var(--border-rad);;
+  background-color: white;
+  height: 540px;
+  width: 300px;
+}
+.options_form{
+
+}
