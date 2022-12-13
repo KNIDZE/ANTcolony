@@ -10,13 +10,11 @@
   flex-direction: row;
 }
 .acp_section{
-  background-image: url("D:\shppFront\magistr_work\magistr\images\bgImage.png");
   align-items: center;
   justify-content: center;
   width: 100vw;
   height: 100vh;
   background-color: aquamarine;
-  background-size: cover;
 }
 .fit_content{
   height: fit-content;
