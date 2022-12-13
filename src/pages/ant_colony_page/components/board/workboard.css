@@ -21,7 +21,7 @@ canvas{
   border-radius: var(--border-rad);
   width: 960px;
   height: 540px;
-  background-image: url("D:\shppFront\magistr_work\magistr\src\pages\ant_colony_page\images\1989877.jpg");
+  background-image: url("https://github.com/KNIDZE/ANTcolony/blob/main/images/1989877.jpg");
   background-size: contain;
   position: relative;
 }
