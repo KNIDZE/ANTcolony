@@ -30,15 +30,15 @@ function WorkBoard(props: BoardProps): React.ReactElement {
     // eslint-disable-next-line no-console
     console.log(context.canvas.width);
     context.beginPath();
-    context.moveTo(x1 + 10, y1 + 10);
-    context.lineTo(x2 + 10, y2 + 10);
+    context.moveTo(x1 + 20, y1 + 40);
+    context.lineTo(x2 + 20, y2 + 40);
     context.stroke();
   }
 
   const handleBoardClick = (e: React.MouseEvent): void => {
     const cityX = e.pageX - e.currentTarget.getBoundingClientRect().left;
     const cityY = e.pageY - e.currentTarget.getBoundingClientRect().top;
-    dataList.push({ x: cityX, y: cityY, id: dataList.length });
+    dataList.push({ x: cityX - 20, y: cityY - 40, id: dataList.length });
     addCitiesToStore(dispatch, dataList);
     changeData(dataList);
     const list = dataList.map((el) => <City key={el.id} x={el.x} y={el.y} id={el.id} />);
@@ -75,6 +75,7 @@ function WorkBoard(props: BoardProps): React.ReactElement {
       context.strokeStyle = 'blue';
       context.lineWidth = 4;
       context.lineCap = 'round';
+      context.setLineDash([0]);
       context.beginPath();
       context.moveTo(dataList[bestPath[0]].x, dataList[bestPath[0]].y);
       for (let i = 0; i < bestPath.length - 1; i++) {

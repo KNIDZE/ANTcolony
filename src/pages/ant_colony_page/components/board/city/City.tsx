@@ -10,9 +10,5 @@ export default function City(props: { x: number; y: number; id: number }): React
       city.style.left = `${x}px`;
     }
   });
-  return (
-    <span className="city" id={`city_${id}`}>
-      {id}
-    </span>
-  );
+  return <span className="city" id={`city_${id}`} />;
 }

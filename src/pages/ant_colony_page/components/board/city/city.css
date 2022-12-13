@@ -1,10 +1,11 @@
 .city{
   position: absolute;
-  background-color: red;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
   left:0;
   right: 0;
   z-index: 10;
+  background-image: url("D:\shppFront\magistr_work\magistr\images\pointer.png");
+  background-size: cover;
 }
