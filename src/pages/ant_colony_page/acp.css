@@ -19,7 +19,7 @@ body{
   width: 100vw;
   height: 100vh;
   background-color: aquamarine;
-  background-image: url("D:\shppFront\magistr_work\magistr\images\light-blue-construction-paper-texture.jpg");
+  background-image: url("https://github.com/KNIDZE/ANTcolony/blob/main/images/light-blue-construction-paper-texture.jpg?raw=true");
   background-size: cover;
 }
 .fit_content{
