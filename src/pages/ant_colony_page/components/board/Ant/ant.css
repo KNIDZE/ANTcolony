@@ -1,0 +1,9 @@
+.ant{
+  width: 15px;
+  height: 15px;
+  border-radius: 5px;
+  background-color: yellow;
+  z-index: 20;
+  position: absolute;
+  transition: 1.5s;
+}

@@ -18,6 +18,7 @@ canvas{
   width: 100%;
 }
 .work_board{
+  border: 5px white solid;
   border-radius: var(--border-rad);
   width: 960px;
   height: 540px;
@@ -26,13 +27,20 @@ canvas{
   position: relative;
 }
 .clear_button{
+  margin-top: 10px;
+  font-family: 'Oswald', sans-serif;
   height: 30px;
   width:100px;
   border-radius: 10px;
-  border: 2px solid black;
-  left: 0;
+  border: 5px solid white;
+  background-color: rgb(64, 119, 201);
+  color: white;
+  right: 0;
   position: absolute;
 }
 .clear_button:hover{
   cursor: pointer;
+  border: 5px solid white;
+  background-color: rgb(89, 142, 213);
+  color: white;
 }

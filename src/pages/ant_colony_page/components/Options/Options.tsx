@@ -18,43 +18,50 @@ function Options(props: OptionsProps): React.ReactElement {
   const handleClick = (e: React.MouseEvent): void => {
     e.preventDefault();
     const best = useAntColony(cities, alpha, beta, Q, evaporation, antsAmount);
-    const result = document.getElementById('best_choice');
-    // eslint-disable-next-line no-console
-    console.log(best);
-    if (result !== null) result.innerHTML = `${best}`;
     dispatch({ type: 'SET_BEST_WAY', payload: best });
+    dispatch({ type: 'SET_ANT_MOVE', payload: true });
+    setTimeout(() => dispatch({ type: 'SET_ANT_MOVE', payload: false }), 1500);
   };
   return (
     <div className="options">
       <h2>Налаштування</h2>
       <form className="options_form">
-        <label>Кількість мурах на кожній точці</label>
-        <input
-          type="number"
-          defaultValue={10}
-          min={1}
-          onChange={(e): void => changeAntsAmount(+e.currentTarget.value)}
-        />
-        <label>Коефіцієнт alpha</label>
-        <input type="number" defaultValue={2} min={0} onChange={(e): void => changeAlpha(+e.currentTarget.value)} />
-        <label>Коефіцієнт beta</label>
-        <input type="number" min={0} defaultValue={5} onChange={(e): void => changeQ(+e.currentTarget.value)} />
-        <label>Коефіцієнт Q</label>
-        <input type="number" min={0} defaultValue={70} onChange={(e): void => changeBeta(+e.currentTarget.value)} />
-        <label>Вивітрювання</label>
-        <input
-          type="number"
-          min={0}
-          defaultValue={0.1}
-          step={0.1}
-          max={1}
-          onChange={(e): void => changeEvaporation(+e.currentTarget.value)}
-        />
+        <div className="option">
+          <label>Кількість мурах на кожній точці</label>
+          <input
+            type="number"
+            defaultValue={10}
+            min={1}
+            onChange={(e): void => changeAntsAmount(+e.currentTarget.value)}
+          />
+        </div>
+        <div className="option">
+          <label>Коефіцієнт alpha</label>
+          <input type="number" defaultValue={2} min={0} onChange={(e): void => changeAlpha(+e.currentTarget.value)} />
+        </div>
+        <div className="option">
+          <label>Коефіцієнт beta</label>
+          <input type="number" min={0} defaultValue={5} onChange={(e): void => changeQ(+e.currentTarget.value)} />
+        </div>
+        <div className="option">
+          <label>Коефіцієнт Q</label>
+          <input type="number" min={0} defaultValue={70} onChange={(e): void => changeBeta(+e.currentTarget.value)} />
+        </div>
+        <div className="option">
+          <label>Вивітрювання</label>
+          <input
+            type="number"
+            min={0}
+            defaultValue={0.1}
+            step={0.1}
+            max={1}
+            onChange={(e): void => changeEvaporation(+e.currentTarget.value)}
+          />
+        </div>
       </form>
-      <button type="submit" onClick={handleClick}>
+      <button className="find_way" type="submit" onClick={handleClick}>
         Знайти шлях!
       </button>
-      <p id="best_choice" />
     </div>
   );
 }

@@ -132,38 +132,28 @@ export function chooseBestWay(ants: Ant[], bestWay: Road): Road {
 
 export default function useAntColony(
   cities: ACity[],
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   alpha: number,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   beta: number,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Q: number,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   evaporation: number,
   antsAmount: number
 ): number[] {
+  const startTime = performance.now();
   const pathMatrix = buildPathMatrix(cities);
-  // writeMatrix(pathMatrix);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const ants = initAnts(cities, antsAmount);
   let bestWay: Road = { cities: [], length: 10 ** 10 };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let bestCounter = 0;
   while (bestCounter !== 10) {
     while (ants[0].cities.length !== cities.length) {
       makeWays(ants, pathMatrix, alpha, beta, Q, evaporation);
     }
     const newBestWay = chooseBestWay(ants, bestWay);
-    // eslint-disable-next-line no-console
     if (newBestWay.length < bestWay.length) {
       bestWay = newBestWay;
       bestCounter = 0;
     } else bestCounter += 1;
   }
-  // ants.forEach((ant) => {
-  //   // eslint-disable-next-line no-console
-  //   console.log(ant.cities);
-  // });
-  writeMatrix(pathMatrix);
+  // eslint-disable-next-line no-console
+  console.log(performance.now() - startTime);
   return bestWay.cities;
 }
