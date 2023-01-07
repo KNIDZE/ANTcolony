@@ -10,5 +10,6 @@ export default function Ant(props: { x1: number; y1: number; x2: number; y2: num
   const { x1, y1, x2, y2 } = props;
   const x = move ? x2 : x1;
   const y = move ? y2 : y1;
-  return <div className="ant" style={{ left: `${x}px`, top: `${y}px` }} />;
+  const visibility = move ? 'visible' : 'hidden';
+  return <div className="ant" style={{ left: `${x}px`, top: `${y}px`, visibility }} />;
 }
