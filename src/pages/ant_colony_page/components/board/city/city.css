@@ -9,3 +9,9 @@
   background-image: url("https://github.com/KNIDZE/ANTcolony/blob/main/images/pointer.png?raw=true");
   background-size: cover;
 }
+.city p{
+  margin-top: -30px;
+  margin-right: -2px;
+  font-size: 20px;
+  color: white;
+}

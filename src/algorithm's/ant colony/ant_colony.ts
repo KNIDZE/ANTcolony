@@ -52,11 +52,8 @@ function initAnts(cities: ACity[], antsAmount: number): Ant[] {
   return result;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function chooseNextCity(availableCities: PathProbability[]): number {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let nextCity = -1;
-  // eslint-disable-next-line no-console
   let counter = 0;
   while (nextCity === -1 && counter < 200) {
     for (let i = 0; i < availableCities.length; i++) {
@@ -78,7 +75,6 @@ function makeWays(ants: Ant[], matrix: Path[][], alpha: number, beta: number, Q:
   ants.forEach((ant) => {
     let availableCities: PathProbability[] = [];
     let HSum = 0;
-    // count probability of next city
     matrix[ant.curCity].forEach((city) => {
       if (!ant.cities.includes(city.second_city)) {
         const coefficientH =
@@ -137,7 +133,11 @@ export default function useAntColony(
   Q: number,
   evaporation: number,
   antsAmount: number
-): number[] {
+): {
+  cities: number[];
+  time: string;
+  length: number;
+} {
   const startTime = performance.now();
   const pathMatrix = buildPathMatrix(cities);
   const ants = initAnts(cities, antsAmount);
@@ -153,7 +153,9 @@ export default function useAntColony(
       bestCounter = 0;
     } else bestCounter += 1;
   }
-  // eslint-disable-next-line no-console
-  console.log(performance.now() - startTime);
-  return bestWay.cities;
+  return {
+    cities: bestWay.cities,
+    time: (performance.now() - startTime).toString(),
+    length: Math.round(bestWay.length),
+  };
 }

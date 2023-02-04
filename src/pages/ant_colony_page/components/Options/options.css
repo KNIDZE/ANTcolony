@@ -1,22 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
-
+h2{
+  font-size: 15px;
+  text-align: left;
+}
 .options{
   font-weight: 700;
-  border-radius: var(--border-rad);;
+  border-radius: var(--border-rad);
   background-color: white;
-  height: 540px;
+  height: 600px;
   width: 300px;
   border: 5px solid rgb(64, 119, 201);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0 20px 0 20px ;
 }
 
 .options_form{
   font-weight: 400;
   display: flex;
   flex-direction: column;
-  padding: 0 20px 0 20px;
 }
 .options_form div label{
   width: 65%;
@@ -30,7 +33,7 @@
   display: flex;
   flex-direction: row;
 }
-.find_way{
+.main_button_style{
   color: rgb(64, 119, 201);
   background-color: white;
   border: 5px solid rgb(64, 119, 201);
@@ -38,13 +41,19 @@
   font-family: 'Oswald', sans-serif;
   width: 120px;
   height: 40px;
-  margin: 0 auto 50px auto;
+  margin: 20px auto 50px auto;
   cursor: pointer;
 }
 .find_way:hover{
   margin-bottom: 55px;
-  margin-top: -5px;
+  margin-top: 15px;
   color: rgb(89, 142, 213);
   background-color: #ffffff;
   border: 5px solid rgb(89, 142, 213);
+}
+.options p{
+  text-align: left;
+}
+.city_generation{
+  margin-bottom: -1px;
 }

@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import './workboard.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import City from './city/City';
 import ACity from '../../../../common/interfaces/ACity';
 import addCitiesToStore from '../../../../store/actions';
-import { drawLines, drawShortestPath, clearReturnContext } from './boardDrawFunctions';
+import { drawLines, clearReturnContext } from './boardDrawFunctions';
 import Ant from './Ant/Ant';
 
-interface BoardProps {
-  bestPath: number[];
-}
-const mapStateToProps = (state: BoardProps): BoardProps => ({
-  bestPath: state.bestPath,
-});
 export default function WorkBoard(): React.ReactElement {
-  const { bestPath } = useSelector(mapStateToProps);
   const [dataList, changeData] = useState<ACity[]>([]);
   const [cityList, changeCities] = useState<JSX.Element[]>([]);
   const [antsList, setAnts] = useState<React.ReactElement[]>([]);
@@ -23,7 +16,7 @@ export default function WorkBoard(): React.ReactElement {
   const handleBoardClick = (e: React.MouseEvent): void => {
     const cityX = e.pageX - e.currentTarget.getBoundingClientRect().left;
     const cityY = e.pageY - e.currentTarget.getBoundingClientRect().top;
-    dataList.push({ x: cityX - 20, y: cityY - 40, id: dataList.length });
+    dataList.push({ x: cityX - 20, y: cityY - 40, id: dataList.length, position: dataList.length + 1 });
     addCitiesToStore(dispatch, dataList);
     changeData(dataList);
     const ants: React.ReactElement[] = [];
@@ -37,7 +30,7 @@ export default function WorkBoard(): React.ReactElement {
       });
     });
     setAnts(ants);
-    const list = dataList.map((el) => <City key={el.id} x={el.x} y={el.y} id={el.id} />);
+    const list = dataList.map((el) => <City key={el.id} x={el.x} y={el.y} id={el.id} position={el.position} />);
     changeCities(list);
     if (dataList.length > 1) {
       drawLines(dataList);
@@ -55,11 +48,9 @@ export default function WorkBoard(): React.ReactElement {
     setAnts([]);
   };
   // show best way
-  if (bestPath.length > 1) {
-    drawShortestPath(dataList, bestPath);
-  }
   return (
     <div className="board_button relative">
+      <p className="hint">Клікніть по карті, щоб обрати точку для нового міста</p>
       <div onClick={handleBoardClick} className="work_board">
         {cityList}
         {antsList}
