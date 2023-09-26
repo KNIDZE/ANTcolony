@@ -1,4 +1,5 @@
 import ACity from '../../common/interfaces/ACity';
+import { IAlgorithmResult } from '../../common/interfaces/IAlgorithmResult';
 
 interface Path {
   length: number;
@@ -35,13 +36,6 @@ function buildPathMatrix(cities: ACity[]): Path[][] {
   }
   return result;
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function writeMatrix(citiesMatrix: Path[][]): void {
-  citiesMatrix.forEach((cityList) => {
-    // eslint-disable-next-line no-console
-    console.log(cityList);
-  });
-}
 function initAnts(cities: ACity[], antsAmount: number): Ant[] {
   const result = [];
   for (let i = 0; i < cities.length; i++) {
@@ -70,7 +64,7 @@ function comparePathProbability(a: PathProbability, b: PathProbability): number 
   if (a.probability > b.probability) return 1;
   return 0;
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function makeWays(ants: Ant[], matrix: Path[][], alpha: number, beta: number, Q: number, E: number): void {
   ants.forEach((ant) => {
     let availableCities: PathProbability[] = [];
@@ -133,17 +127,15 @@ export default function useAntColony(
   Q: number,
   evaporation: number,
   antsAmount: number
-): {
-  cities: number[];
-  time: string;
-  length: number;
-} {
+): IAlgorithmResult {
   const startTime = performance.now();
   const pathMatrix = buildPathMatrix(cities);
   const ants = initAnts(cities, antsAmount);
   let bestWay: Road = { cities: [], length: 10 ** 10 };
   let bestCounter = 0;
+  let iterations = 0;
   while (bestCounter !== 10) {
+    iterations += 1;
     while (ants[0].cities.length !== cities.length) {
       makeWays(ants, pathMatrix, alpha, beta, Q, evaporation);
     }
@@ -154,8 +146,9 @@ export default function useAntColony(
     } else bestCounter += 1;
   }
   return {
-    cities: bestWay.cities,
-    time: (performance.now() - startTime).toString(),
+    path: bestWay.cities,
+    time: performance.now() - startTime,
     length: Math.round(bestWay.length),
+    iterations,
   };
 }

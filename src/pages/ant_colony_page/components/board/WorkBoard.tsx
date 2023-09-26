@@ -1,28 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './workboard.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import City from './city/City';
 import ACity from '../../../../common/interfaces/ACity';
-import addCitiesToStore from '../../../../store/actions';
 import { drawLines, clearReturnContext } from './boardDrawFunctions';
 import Ant from './Ant/Ant';
 
+import { addCitiesToStore } from '../../../../store/actions';
+import { IBoardProps } from '../../../../common/interfaces/IBoardProps';
+
+const mapStateToProps = (state: { cities: ACity[] }): IBoardProps => ({
+  propsCities: state.cities,
+});
+
 export default function WorkBoard(): React.ReactElement {
-  const [dataList, changeData] = useState<ACity[]>([]);
+  const { propsCities } = useSelector(mapStateToProps);
+  const [dataList, setDataList] = useState<ACity[]>([]);
   const [cityList, changeCities] = useState<JSX.Element[]>([]);
   const [antsList, setAnts] = useState<React.ReactElement[]>([]);
   const dispatch = useDispatch();
 
-  const handleBoardClick = (e: React.MouseEvent): void => {
-    const cityX = e.pageX - e.currentTarget.getBoundingClientRect().left;
-    const cityY = e.pageY - e.currentTarget.getBoundingClientRect().top;
-    dataList.push({ x: cityX - 20, y: cityY - 40, id: dataList.length, position: dataList.length + 1 });
-    addCitiesToStore(dispatch, dataList);
-    changeData(dataList);
+  function addGraphic(workList: ACity[]): void {
     const ants: React.ReactElement[] = [];
     let keyCounter = 0;
-    dataList.forEach((element) => {
-      dataList.forEach((element2) => {
+    workList.forEach((element) => {
+      workList.forEach((element2) => {
         if (element !== element2)
           ants.push(
             <Ant key={keyCounter++} x1={element.x + 13} y1={element.y + 30} x2={element2.x + 13} y2={element2.y + 30} />
@@ -30,16 +32,28 @@ export default function WorkBoard(): React.ReactElement {
       });
     });
     setAnts(ants);
-    const list = dataList.map((el) => <City key={el.id} x={el.x} y={el.y} id={el.id} position={el.position} />);
+    const list = workList.map((el) => <City key={el.id} x={el.x} y={el.y} id={el.id} position={el.position} />);
     changeCities(list);
-    if (dataList.length > 1) {
-      drawLines(dataList);
+    if (workList.length > 1) {
+      drawLines(workList);
     }
+  }
+  useEffect(() => {
+    setDataList(propsCities);
+    addGraphic(propsCities);
+  }, [propsCities]);
+  const handleBoardClick = (e: React.MouseEvent): void => {
+    const cityX = e.pageX - e.currentTarget.getBoundingClientRect().left;
+    const cityY = e.pageY - e.currentTarget.getBoundingClientRect().top;
+    dataList.push({ x: cityX - 20, y: cityY - 40, id: dataList.length, position: dataList.length + 1 });
+    setDataList(dataList);
+    addCitiesToStore(dispatch, dataList);
+    addGraphic(dataList);
   };
   const handleClearClick = (): void => {
     clearReturnContext();
     dataList.slice(0, dataList.length);
-    changeData([]);
+    setDataList([]);
     changeCities([]);
     addCitiesToStore(dispatch, []);
     const result = document.getElementById('best_choice');
@@ -50,7 +64,7 @@ export default function WorkBoard(): React.ReactElement {
   // show best way
   return (
     <div className="board_button relative">
-      <p className="hint">Клікніть по карті, щоб обрати точку для нового міста</p>
+      <p className="hint">Натисніть по карті, щоб обрати точку для нового міста</p>
       <div onClick={handleBoardClick} className="work_board">
         {cityList}
         {antsList}

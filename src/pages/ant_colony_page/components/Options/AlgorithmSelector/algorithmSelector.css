@@ -1,0 +1,22 @@
+.algorithm_selector{
+  height: 245px;
+}
+.selector{
+
+  border: 3px solid rgb(64, 119, 201);
+  border-radius: var(--border-rad);
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: space-around;
+}
+.selector_item{
+  transition-duration: 0.3s;
+  border-radius: var(--border-rad);
+  width: calc(100% / 3) ;
+  cursor: pointer;
+
+}
+.selected{
+  background-color: rgb(64, 119, 201);
+  color:white;
+}

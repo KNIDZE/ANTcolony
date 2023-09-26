@@ -11,8 +11,6 @@ export function clearReturnContext(): CanvasRenderingContext2D | null {
   if (canvas) {
     const context = canvas.getContext('2d');
     if (context) {
-      // eslint-disable-next-line no-console
-      console.log(canvas.width, canvas.height);
       context.clearRect(0, 0, canvas.width, canvas.height);
       return context;
     }
@@ -20,6 +18,8 @@ export function clearReturnContext(): CanvasRenderingContext2D | null {
   return null;
 }
 export function drawLines(dataList: ACity[]): void {
+  // eslint-disable-next-line no-console
+  console.log(dataList);
   const context = clearReturnContext();
   if (context) {
     context.strokeStyle = 'red';

@@ -5,7 +5,13 @@ import {Reducer} from "redux";
 const initialState = {
   cities: [],
   bestPath: [],
-  move: false
+  move: false,
+  algorithm: 'brute',
+  alpha: 0,
+  beta: 0,
+  Q: 0,
+  evaporation: 0,
+  antsAmount: 0
 };
 
 export default function reducer(state = initialState, action: { type: string; payload?: any }) {
@@ -19,6 +25,9 @@ export default function reducer(state = initialState, action: { type: string; pa
     case "SET_ANT_MOVE":
       return {...state,
       move: action.payload}
+    case "SET_ALGORITHM":
+      return {...state,
+        algorithm: action.payload}
     default: {
       return { ...state, ...action.payload };
     }
