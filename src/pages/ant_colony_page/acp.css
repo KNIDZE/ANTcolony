@@ -13,11 +13,11 @@ body{
   flex-direction: row;
 }
 .acp_section{
-
   align-items: center;
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  overflow-y: hidden;
   background-color: aquamarine;
   background-image: url("https://github.com/KNIDZE/ANTcolony/blob/main/images/light-blue-construction-paper-texture.jpg?raw=true");
   background-size: cover;
