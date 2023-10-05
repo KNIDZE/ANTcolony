@@ -88,17 +88,10 @@ function makeWays(ants: Ant[], matrix: Path[][], alpha: number, beta: number, Q:
     // make choice
     const nextCity = chooseNextCity(availableCities);
     ant.cities.push(nextCity);
-    // eslint-disable-next-line no-param-reassign
     matrix[ant.curCity][nextCity].pheromone += Q / matrix[ant.curCity][nextCity].length;
-    // eslint-disable-next-line no-param-reassign
     matrix[nextCity][ant.curCity].pheromone += Q / matrix[ant.curCity][nextCity].length;
-    // eslint-disable-next-line no-param-reassign
     matrix[ant.curCity][nextCity].pheromone *= E;
-    // eslint-disable-next-line no-param-reassign
     matrix[nextCity][ant.curCity].pheromone *= E;
-    // eslint-disable-next-line no-param-reassign
-    ant.path += matrix[ant.curCity][nextCity].length;
-    // eslint-disable-next-line no-param-reassign
     ant.curCity = nextCity;
   });
 }
@@ -106,14 +99,11 @@ interface Road {
   cities: number[];
   length: number;
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function chooseBestWay(ants: Ant[], bestWay: Road): Road {
   const bestPath = { cities: bestWay.cities, length: bestWay.length };
   ants.forEach((ant) => {
     if (ant.path < bestPath.length) {
-      // eslint-disable-next-line no-param-reassign
       bestPath.cities = ant.cities;
-      // eslint-disable-next-line no-param-reassign
       bestPath.length = ant.path;
     }
   });

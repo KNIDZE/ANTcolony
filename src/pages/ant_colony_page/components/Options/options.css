@@ -54,3 +54,17 @@ h2{
 .city_generation{
   margin-bottom: -1px;
 }
+.city_generation_button{
+  background-color: rgb(64, 119, 201);
+  color: white;
+  border: 5px solid white;
+  margin: 10px auto 10px auto;
+}
+.city_generation_button:active{
+  width: 100px;
+  height: 35px;
+  margin-bottom: 15px;
+}
+.shortest_path{
+  max-width: 100%;
+}

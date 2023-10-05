@@ -7,11 +7,19 @@ const initialState = {
   bestPath: [],
   move: false,
   algorithm: 'brute',
-  alpha: 0,
-  beta: 0,
-  Q: 0,
-  evaporation: 0,
-  antsAmount: 0
+  antCoefficients: {
+    alpha: 0,
+    beta: 0,
+    Q: 0,
+    evaporation: 0,
+    antsAmount: 0
+  },
+  geneticOptions: {
+    populationSize: 1,
+    generationAmount: 1,
+    mutationAmount: 1,
+  }
+
 };
 
 export default function reducer(state = initialState, action: { type: string; payload?: any }) {
@@ -28,6 +36,12 @@ export default function reducer(state = initialState, action: { type: string; pa
     case "SET_ALGORITHM":
       return {...state,
         algorithm: action.payload}
+    case "SET_COEFFICIENTS":
+      return {...state,
+        antCoefficients: action.payload}
+    case "SET_GENETIC_OPTIONS":
+      return {...state,
+        geneticOptions: action.payload}
     default: {
       return { ...state, ...action.payload };
     }

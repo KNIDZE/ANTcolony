@@ -18,8 +18,6 @@ export function clearReturnContext(): CanvasRenderingContext2D | null {
   return null;
 }
 export function drawLines(dataList: ACity[]): void {
-  // eslint-disable-next-line no-console
-  console.log(dataList);
   const context = clearReturnContext();
   if (context) {
     context.strokeStyle = 'red';
@@ -35,8 +33,6 @@ export function drawLines(dataList: ACity[]): void {
 }
 
 export async function drawShortestPath(dataList: ACity[], bestPath: number[]): Promise<void> {
-  // eslint-disable-next-line no-console
-  console.log(dataList);
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
   if (canvas) {
     const context = canvas.getContext('2d');

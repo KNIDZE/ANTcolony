@@ -1,12 +1,11 @@
 import ACity from './ACity';
+import ICoefficients from './ICoefficients';
+import { IGeneticOptions } from './IGeneticOptions';
 
 export interface OptionsProps {
   propsCities: ACity[];
-  algorithm: string;
+  algorithm: 'ACO' | 'Brute' | 'Genetic';
   cities: ACity[];
-  alpha: number;
-  beta: number;
-  Q: number;
-  evaporation: number;
-  antsAmount: number;
+  antCoefficients: ICoefficients;
+  geneticOptions: IGeneticOptions;
 }

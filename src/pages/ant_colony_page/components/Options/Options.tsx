@@ -5,9 +5,11 @@ import ACity from '../../../../common/interfaces/ACity';
 import { OptionsProps } from '../../../../common/interfaces/IOptions';
 import { AlgorithmSelection } from './AlgorithmSelector/AlgorithmSelection';
 import bruteForce from '../../../../algorithms/bruteforce/bruteForce';
-import useAntColony from '../../../../algorithms/ant colony/ant_colony';
+import useAntColony from '../../../../algorithms/antcolony/ant_colony';
 import { IAlgorithmResult } from '../../../../common/interfaces/IAlgorithmResult';
 import { drawShortestPath } from '../board/boardDrawFunctions';
+import useGeneticAlgorithm from '../../../../algorithms/genetic/geneticAlgorithm';
+import { addCitiesToStore, setEntMovement } from '../../../../store/actions';
 
 interface GeneratorOptions {
   amount: number;
@@ -17,14 +19,10 @@ const mapStateToProps = (state: OptionsProps): OptionsProps => ({
   propsCities: state.cities,
   algorithm: state.algorithm,
   cities: state.cities,
-  alpha: state.alpha,
-  beta: state.beta,
-  Q: state.Q,
-  evaporation: state.evaporation,
-  antsAmount: state.antsAmount,
+  antCoefficients: state.antCoefficients,
+  geneticOptions: state.geneticOptions,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateRandomCities(options: GeneratorOptions): ACity[] {
   const result: ACity[] = [];
   let x = Math.floor(Math.random() * 900);
@@ -43,16 +41,15 @@ function generateRandomCities(options: GeneratorOptions): ACity[] {
   return result;
 }
 export default function Options(): React.ReactElement {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
-  const { propsCities, algorithm, beta, alpha, Q, evaporation, antsAmount } = useSelector(mapStateToProps);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { propsCities, algorithm, geneticOptions, antCoefficients } = useSelector(mapStateToProps);
   const [cities, setCities] = useState(propsCities);
-  const [algrorithmResult, setAlgorithmResult] = useState<IAlgorithmResult>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cityGeneration, generateCities] = useState(false);
+  const [algorithmResult, setAlgorithmResult] = useState<IAlgorithmResult>();
   const [generationOptions, setGenerationOptions] = useState({ amount: 20, maxLength: 1000 });
 
+  const cityGeneration = (): void => {
+    addCitiesToStore(dispatch, generateRandomCities(generationOptions));
+  };
   useEffect(() => setCities(propsCities), [propsCities]);
   function findPath(): void {
     let result: IAlgorithmResult = {
@@ -61,33 +58,38 @@ export default function Options(): React.ReactElement {
       length: 0,
       time: 0,
     };
+    if (algorithm === 'Genetic') {
+      result = useGeneticAlgorithm(
+        cities,
+        geneticOptions.populationSize,
+        geneticOptions.generationAmount,
+        geneticOptions.generationAmount
+      );
+    }
     if (algorithm === 'Brute') {
       result = bruteForce(cities);
     }
     if (algorithm === 'ACO') {
-      result = useAntColony(cities, alpha, beta, Q, evaporation, antsAmount);
+      result = useAntColony(
+        cities,
+        antCoefficients.alpha,
+        antCoefficients.beta,
+        antCoefficients.Q,
+        antCoefficients.evaporation,
+        antCoefficients.antsAmount
+      );
     }
     setAlgorithmResult(result);
-    dispatch({ type: 'SET_ANT_MOVE', payload: true });
+    setEntMovement(dispatch, true);
     drawShortestPath(cities, result.path);
     setTimeout((): void => {
-      dispatch({ type: 'SET_ANT_MOVE', payload: false });
+      setEntMovement(dispatch, false);
     }, 1500);
   }
   return (
     <div className="options">
       <h2>Налаштування</h2>
       <AlgorithmSelection />
-      <div className="flex_row">
-        <h2>Генерація міст</h2>
-        <input
-          type="checkbox"
-          className="city_generation"
-          name="checkbox"
-          value="off"
-          onChange={(e): void => generateCities(e.currentTarget.checked)}
-        />
-      </div>
       <form className="options_form">
         <div className="option">
           <label>Кількість:</label>
@@ -117,13 +119,21 @@ export default function Options(): React.ReactElement {
             }
           />
         </div>
-
+        <button
+          className="main_button_style city_generation_button"
+          onClick={(e): void => {
+            cityGeneration();
+            e.preventDefault();
+          }}
+        >
+          Генерація міст
+        </button>
         <h2>Результат</h2>
-        <p>
-          Найкоротший шлях: {algrorithmResult?.path} ( {algrorithmResult?.length} УО )
+        <p className="shortest_path">
+          Найкоротший шлях: {algorithmResult?.path.join(', ')} ( {algorithmResult?.length} УО )
         </p>
-        <p>Час знаходження: {algrorithmResult?.time.toString().slice(0, 5)} мс</p>
-        <p>Кількість ітерацій: {algrorithmResult?.iterations}</p>
+        <p>Час знаходження: {algorithmResult?.time.toString().slice(0, 5)} мс</p>
+        <p>Кількість ітерацій: {algorithmResult?.iterations}</p>
         <button
           className="main_button_style"
           type="submit"

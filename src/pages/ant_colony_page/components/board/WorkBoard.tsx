@@ -19,7 +19,6 @@ export default function WorkBoard(): React.ReactElement {
   const [cityList, changeCities] = useState<JSX.Element[]>([]);
   const [antsList, setAnts] = useState<React.ReactElement[]>([]);
   const dispatch = useDispatch();
-
   function addGraphic(workList: ACity[]): void {
     const ants: React.ReactElement[] = [];
     let keyCounter = 0;
