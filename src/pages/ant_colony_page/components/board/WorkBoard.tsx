@@ -70,7 +70,7 @@ export default function WorkBoard(): React.ReactElement {
         <canvas height="540px" width="960px" id="canvas" />
       </div>
       <button className="clear_button" onClick={handleClearClick}>
-        Clear
+        Очистити
       </button>
     </div>
   );

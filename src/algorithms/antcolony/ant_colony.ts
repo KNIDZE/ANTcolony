@@ -18,6 +18,11 @@ interface PathProbability {
   coefficientH: number;
   probability: number;
 }
+
+interface Road {
+  cities: number[];
+  length: number;
+}
 function buildPathMatrix(cities: ACity[]): Path[][] {
   const result: Path[][] = [];
   for (let i = 0; i < cities.length; i++) {
@@ -95,13 +100,18 @@ function makeWays(ants: Ant[], matrix: Path[][], alpha: number, beta: number, Q:
     ant.curCity = nextCity;
   });
 }
-interface Road {
-  cities: number[];
-  length: number;
+
+function countPath(ant: Ant, roadMatrix: Path[][]): number {
+  let result = 0;
+  for (let i = 0; i < ant.cities.length - 1; i++) {
+    result += roadMatrix[ant.cities[i]][ant.cities[i + 1]].length;
+  }
+  return result;
 }
-export function chooseBestWay(ants: Ant[], bestWay: Road): Road {
+function chooseBestWay(ants: Ant[], bestWay: Road, roadMatrix: Path[][]): Road {
   const bestPath = { cities: bestWay.cities, length: bestWay.length };
   ants.forEach((ant) => {
+    ant.path = countPath(ant, roadMatrix);
     if (ant.path < bestPath.length) {
       bestPath.cities = ant.cities;
       bestPath.length = ant.path;
@@ -109,7 +119,6 @@ export function chooseBestWay(ants: Ant[], bestWay: Road): Road {
   });
   return bestPath;
 }
-
 export default function useAntColony(
   cities: ACity[],
   alpha: number,
@@ -120,20 +129,23 @@ export default function useAntColony(
 ): IAlgorithmResult {
   const startTime = performance.now();
   const pathMatrix = buildPathMatrix(cities);
-  const ants = initAnts(cities, antsAmount);
+  let ants = initAnts(cities, antsAmount);
   let bestWay: Road = { cities: [], length: 10 ** 10 };
   let bestCounter = 0;
   let iterations = 0;
   while (bestCounter !== 10) {
     iterations += 1;
+    ants = initAnts(cities, antsAmount);
     while (ants[0].cities.length !== cities.length) {
       makeWays(ants, pathMatrix, alpha, beta, Q, evaporation);
     }
-    const newBestWay = chooseBestWay(ants, bestWay);
-    if (newBestWay.length < bestWay.length) {
+    const newBestWay = chooseBestWay(ants, bestWay, pathMatrix);
+    const newBestLength = newBestWay.length;
+    if (newBestLength < bestWay.length) {
       bestWay = newBestWay;
       bestCounter = 0;
-    } else bestCounter += 1;
+    }
+    if (newBestWay.length === bestWay.length) bestCounter += 1;
   }
   return {
     path: bestWay.cities,

@@ -2,6 +2,8 @@ import ACity from '../../common/interfaces/ACity';
 import { IAlgorithmResult } from '../../common/interfaces/IAlgorithmResult';
 
 export default function bruteForce(cities: ACity[]): IAlgorithmResult {
+  // eslint-disable-next-line no-console
+  console.log(cities);
   const startTime = performance.now();
   let bestPathLength = Infinity;
   let bestPath: number[] = [];
@@ -29,9 +31,9 @@ export default function bruteForce(cities: ACity[]): IAlgorithmResult {
       }
     }
   }
-
   generate();
-
+  // eslint-disable-next-line no-console
+  console.log(process.memoryUsage());
   return {
     length: Math.round(bestPathLength),
     path: bestPath,

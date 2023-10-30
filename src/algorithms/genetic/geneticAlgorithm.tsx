@@ -45,15 +45,21 @@ function makeInitialPopulation(maxPopulation: number, cities: ACity[]): PathChil
 function reproduction(parent1: number[], parent2: number[]): number[] {
   const newPath: number[] = [];
   let parentNumber;
+  let successfulCrossover = false;
   // for each city in path
   for (let i = 0; i < parent1.length; i++) {
     parentNumber = Math.floor(Math.random());
+    successfulCrossover = false;
     // if we choose first parent and if value of current city not in new path
     if (parentNumber === 0 && !newPath.includes(parent1[i])) {
       newPath.push(parent1[i]);
-    } else if (parentNumber === 1 && !newPath.includes(parent2[i])) {
-      newPath.push(parent1[i]);
-    } else {
+      successfulCrossover = true;
+    }
+    if (parentNumber === 1 && !newPath.includes(parent2[i])) {
+      newPath.push(parent2[i]);
+      successfulCrossover = true;
+    }
+    if (!successfulCrossover) {
       // if we didn't find a city in parents - push -1'
       newPath.push(-1);
     }

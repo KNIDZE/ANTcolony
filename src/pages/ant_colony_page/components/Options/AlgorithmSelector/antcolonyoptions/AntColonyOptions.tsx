@@ -3,6 +3,7 @@ import './antcolonyoptions.css';
 import { useDispatch } from 'react-redux';
 import ICoefficients from '../../../../../../common/interfaces/ICoefficients';
 import { setCoefficients } from '../../../../../../store/actions';
+import Hint from '../hint/Hint';
 
 export default function AntColonyOptions(): React.ReactElement {
   const dispatch = useDispatch();
@@ -13,13 +14,39 @@ export default function AntColonyOptions(): React.ReactElement {
     evaporation: 0.1,
     antsAmount: 20,
   });
+  const [hintsVisibility, setHintsVisibility] = useState({
+    antsAmount: false,
+    alpha: false,
+    beta: false,
+    Q: false,
+    evaporation: false,
+  });
   useEffect(() => {
     setCoefficients(dispatch, coefficients);
   }, [coefficients]);
   return (
     <form className="options_form algorithm_options">
       <div className="option">
-        <label>Кількість мурах на кожній точці</label>
+        <label
+          onMouseEnter={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              antsAmount: true,
+            }));
+          }}
+          onMouseLeave={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              antsAmount: false,
+            }));
+          }}
+        >
+          Кількість мурах на кожній точці
+          <Hint
+            hint="Кількість мурах, які будуть залишати слід на шляхах за одну ітерацію"
+            show={hintsVisibility.antsAmount}
+          />
+        </label>
         <input
           type="number"
           defaultValue={20}
@@ -31,7 +58,23 @@ export default function AntColonyOptions(): React.ReactElement {
         />
       </div>
       <div className="option">
-        <label>Коефіцієнт alpha</label>
+        <label
+          onMouseEnter={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              alpha: true,
+            }));
+          }}
+          onMouseLeave={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              alpha: false,
+            }));
+          }}
+        >
+          Коефіцієнт alpha
+          <Hint hint="Параметр, що впливає на значущість феромону в алгоритмі" show={hintsVisibility.alpha} />
+        </label>
         <input
           type="number"
           defaultValue={3}
@@ -43,7 +86,26 @@ export default function AntColonyOptions(): React.ReactElement {
         />
       </div>
       <div className="option">
-        <label>Коефіцієнт beta</label>
+        <label
+          onMouseEnter={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              beta: true,
+            }));
+          }}
+          onMouseLeave={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              beta: false,
+            }));
+          }}
+        >
+          Коефіцієнт beta
+          <Hint
+            hint="Параметр, що впливає на значущість відстані між містами в алгоритмі"
+            show={hintsVisibility.beta}
+          />
+        </label>
         <input
           type="number"
           min={0}
@@ -55,7 +117,23 @@ export default function AntColonyOptions(): React.ReactElement {
         />
       </div>
       <div className="option">
-        <label>Коефіцієнт Q</label>
+        <label
+          onMouseEnter={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              Q: true,
+            }));
+          }}
+          onMouseLeave={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              Q: false,
+            }));
+          }}
+        >
+          Коефіцієнт Q
+          <Hint hint="Кількість феромону, що залишає мураха" show={hintsVisibility.Q} />
+        </label>
         <input
           type="number"
           min={0}
@@ -67,7 +145,23 @@ export default function AntColonyOptions(): React.ReactElement {
         />
       </div>
       <div className="option">
-        <label>Вивітрювання</label>
+        <label
+          onMouseEnter={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              evaporation: true,
+            }));
+          }}
+          onMouseLeave={(): void => {
+            setHintsVisibility((prevState) => ({
+              ...prevState,
+              evaporation: false,
+            }));
+          }}
+        >
+          Вивітрювання
+          <Hint hint="Кількість феромону, що вивітрюється" show={hintsVisibility.evaporation} />
+        </label>
         <input
           type="number"
           min={0}

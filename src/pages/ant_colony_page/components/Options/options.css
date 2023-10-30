@@ -68,3 +68,6 @@ h2{
 .shortest_path{
   max-width: 100%;
 }
+.option label{
+  position: relative;
+}
