@@ -31,12 +31,12 @@ function generateRandomCities(options: GeneratorOptions): ACity[] {
     x,
     y,
     id: 0,
-    position: 0,
+    position: 1,
   });
-  for (let i = 1; i < options.amount - 1; i++) {
+  for (let i = 1; i < options.amount; i++) {
     x = Math.floor(Math.random() * 900);
     y = Math.floor(Math.random() * 500);
-    result.push({ x, y, position: result.length, id: result.length });
+    result.push({ x, y, position: result.length + 1, id: result.length });
   }
   return result;
 }
@@ -62,7 +62,7 @@ export default function Options(): React.ReactElement {
       result = useGeneticAlgorithm(
         cities,
         geneticOptions.populationSize,
-        geneticOptions.generationAmount,
+        geneticOptions.mutationAmount,
         geneticOptions.generationAmount
       );
     }

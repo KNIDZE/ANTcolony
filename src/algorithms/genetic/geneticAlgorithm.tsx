@@ -45,21 +45,18 @@ function makeInitialPopulation(maxPopulation: number, cities: ACity[]): PathChil
 function reproduction(parent1: number[], parent2: number[]): number[] {
   const newPath: number[] = [];
   let parentNumber;
-  let successfulCrossover = false;
   // for each city in path
   for (let i = 0; i < parent1.length; i++) {
     parentNumber = Math.floor(Math.random());
-    successfulCrossover = false;
     // if we choose first parent and if value of current city not in new path
     if (parentNumber === 0 && !newPath.includes(parent1[i])) {
       newPath.push(parent1[i]);
-      successfulCrossover = true;
-    }
+      continue;
+    } else parentNumber = 1;
+
     if (parentNumber === 1 && !newPath.includes(parent2[i])) {
       newPath.push(parent2[i]);
-      successfulCrossover = true;
-    }
-    if (!successfulCrossover) {
+    } else {
       // if we didn't find a city in parents - push -1'
       newPath.push(-1);
     }
@@ -82,20 +79,24 @@ function mutation(newPath: number[], mutationsAmount: number, cities: ACity[]): 
   If path has empty slots for cities, then if we push numbers there - we can consider that its mutation
   Else - we need to change cities manually
  */
-  if (!newPath.includes(-1)) {
+  if (!result.includes(-1)) {
     for (let i = 0; i < mutationsAmount; i++) {
-      const index = Math.floor(Math.random() * newPath.length);
-      let index2 = Math.floor(Math.random() * newPath.length);
+      const index = Math.floor(Math.random() * result.length);
+      let index2 = Math.floor(Math.random() * result.length);
+
       // no repeat
       while (index === index2) {
-        index2 = Math.floor(Math.random() * newPath.length);
+        index2 = Math.floor(Math.random() * result.length);
       }
-      [result[index], result[index2]] = [result[index2], result[index]];
+      const changeIndex1 = result[index2];
+      const changeIndex2 = result[index];
+      result[index] = changeIndex1;
+      result[index2] = changeIndex2;
     }
   } else {
     while (result.includes(-1)) {
       const missedNumbers = getMissedNumber(result);
-      result[newPath.indexOf(-1)] = missedNumbers[Math.floor(Math.random() * missedNumbers.length)];
+      result[result.indexOf(-1)] = missedNumbers[Math.floor(Math.random() * missedNumbers.length)];
     }
   }
   return { path: result, distance: countPathLength(cities, result) };
@@ -116,6 +117,7 @@ export default function useGeneticAlgorithm(
       newChild = reproduction(population[j].path, population[j + 1].path);
       population.push(mutation(newChild, mutationAmount, cities));
     }
+
     population.sort((a, b) => a.distance - b.distance);
     population = population.slice(0, maxPopulation);
   }
